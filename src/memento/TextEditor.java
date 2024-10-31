@@ -1,25 +1,32 @@
-package memento;
-
 public class TextEditor {
-    private StringBuilder builder;
+    private StringBuilder text = new StringBuilder();
 
-    public TextEditor() {
-        this.builder = new StringBuilder();
-    }
-
-    public void addText(String text) {
-        builder.append(text);
+    public void addText(String newText) {
+        text.append(newText);
     }
 
     public String getText() {
-        return builder.toString();
+        return text.toString();
     }
 
     public Memento save() {
-        return new Memento(builder.toString());
+        return new Memento(text.toString());
     }
 
     public void restore(Memento memento) {
-        builder = new StringBuilder(memento.getState());
+        text = new StringBuilder(memento.getState());
+    }
+
+    // Nested Memento class
+    public static class Memento {
+        private final String state;
+
+        private Memento(String state) {
+            this.state = state;
+        }
+
+        private String getState() {
+            return state;
+        }
     }
 }
