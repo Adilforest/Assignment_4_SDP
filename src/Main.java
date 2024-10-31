@@ -1,9 +1,7 @@
-import interpreter.Interpreter;
-import memento.TextEditorMemento;
-import observer.FirstNewsChannel;
-import observer.NewsAgency;
-import observer.Observer;
-import observer.SecondNewsChannel;
+import interpreter.*;
+import memento.*;
+import observer.*;
+
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
