@@ -1,42 +1,86 @@
-# Assignment 4: Behavioral Design Patterns
+# Software Design Patterns — Assignment 4 (AITU)
 
-This project implements three behavioral design patterns as part of Assignment 4 for the Software Design Patterns course. The patterns are:
+![Java](https://img.shields.io/badge/Java-21-007396?logo=openjdk&logoColor=white)
 
-1. **Interpreter Pattern**: Evaluates simple arithmetic expressions.
-2. **Memento Pattern**: Implements a simple text editor with undo functionality.
-3. **Observer Pattern**: Simulates a news system where multiple observers (news channels) receive updates from an observable (news agency).
+## Overview
 
-## Table of Contents
+Assignment 4 for the Software Design Patterns course at Astana IT University.
+The project demonstrates three classic **behavioral** design patterns from the
+Gang of Four catalogue, each implemented as a self-contained package with a
+driver in `Main.java`.
 
-- [Design Patterns](#design-patterns)
-  - [Interpreter Pattern](#interpreter-pattern)
-  - [Memento Pattern](#memento-pattern)
-  - [Observer Pattern](#observer-pattern)
+## Patterns / Concepts Implemented
 
-## Design Patterns
+- **Interpreter** — `src/interpreter/` — parses and evaluates simple
+  arithmetic expressions (integer addition and subtraction) by building a
+  composite tree of `Expression` nodes: `NumberExpression` for terminals and
+  `OperatorExpression` for binary operations. An `Interpreter` utility class
+  handles tokenisation and tree construction from a string like `"1 + 2 - 3"`.
+  *(Note: the `Interpreter` parser class and `TextEditorMemento` wrapper are
+  referenced in `Main.java` but not present in the repository — only the
+  expression-tree classes are committed.)*
 
-### 1. Interpreter Pattern
+- **Memento** — `src/memento/` — implements undo functionality for a text
+  editor. `TextEditor` produces `TextEditor.Memento` snapshots (inner class
+  with private access). A separate standalone `Memento` value class and a
+  `History` stack-based caretaker are also present, reflecting two variants
+  explored during development.
 
-The **Interpreter** pattern is used to evaluate arithmetic expressions consisting of integers, addition (`+`), and subtraction (`-`). It uses the following classes:
+- **Observer** — `src/observer/` — models a news-broadcast system.
+  `Observable` is the subject interface; `ObservableBase` is an abstract class
+  that manages the subscriber list and implements notify logic, reducing
+  boilerplate in concrete subjects. `NewsAgency` extends `ObservableBase` and
+  publishes headlines. `FirstNewsChannel` and `SecondNewsChannel` implement the
+  `Observer` interface and print received messages.
 
-- `Expression` interface: Defines the `interpret()` method.
-- `NumberExpression`: Handles integer values.
-- `OperationExpression`: Handles the addition and subtraction operations.
-- `Interpreter`: Parses a string expression like `"5 + 2 - 3"` and evaluates the result.
+**OOP concepts exercised:** interfaces, abstract classes, inheritance,
+encapsulation (private inner class for Memento state), composition.
 
-### 2. Memento Pattern
+## Project Structure
 
-The **Memento** pattern is implemented in the context of a simple text editor. The text editor allows users to type text, save the current state, and undo changes. The pattern includes:
+```
+src/
+├── Main.java                      # Driver — calls testExpression / testMemento / testObserver
+├── interpreter/
+│   ├── Expression.java            # interface: interpret() → int
+│   ├── NumberExpression.java      # terminal: wraps a literal int
+│   └── OperatorExpression.java    # composite: +/- on two sub-expressions
+├── memento/
+│   ├── TextEditor.java            # originator with nested Memento inner class
+│   ├── Memento.java               # standalone memento value object
+│   └── History.java               # caretaker — Stack<Memento>
+└── observer/
+    ├── Observable.java            # subject interface
+    ├── ObservableBase.java        # abstract base — manages observer list
+    ├── Observer.java              # observer interface
+    ├── NewsAgency.java            # concrete subject
+    ├── FirstNewsChannel.java      # concrete observer 1
+    └── SecondNewsChannel.java     # concrete observer 2
+```
 
-- `Memento`: Stores the state of the text.
-- `TextEditor`: Manages text input and stores the state using the Memento.
-- `History`: A stack-based history manager for saving and restoring `Memento` objects.
+## How to Run
 
-### 3. Observer Pattern
+The project is a plain Java project (no build tool). You can run it from the
+command line or from IntelliJ IDEA.
 
-The **Observer** pattern is used in a news system where multiple observers (news channels) get notified whenever the observable (news agency) publishes new headlines. The pattern consists of:
+**From the command line (JDK 21+):**
 
-- `Observable` interface: Defines methods to add, remove, and notify observers.
-- `Observer` interface: Defines the `update()` method.
-- `NewsAgency`: The observable that holds the latest headline and notifies observers.
-- `NewsChannel`: The observer that receives updates from the news agency.
+```bash
+# Compile from the src/ directory
+javac -d out \
+  src/interpreter/*.java \
+  src/memento/*.java \
+  src/observer/*.java \
+  src/Main.java
+
+# Run
+java -cp out Main
+```
+
+**From IntelliJ IDEA:** open the project root, let IDEA index it, then run the
+`Main` class. The active demo can be switched by un-commenting the relevant
+method call in `main()`.
+
+---
+
+Adil Ormanov — [GitHub](https://github.com/Adilforest)
