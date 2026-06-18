@@ -32,4 +32,9 @@ bin/
 *.class
 
 ### Build output ###
-target/
+target/.idea/
+__pycache__/
+*.pyc
+.venv/
+venv/
+node_modules/
