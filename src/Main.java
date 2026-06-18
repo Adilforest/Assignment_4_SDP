@@ -3,13 +3,13 @@ import memento.*;
 import observer.*;
 
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-//        testExpression();
+        testExpression();
+        System.out.println("----");
         testMemento();
-//        testObserver();
+        System.out.println("----");
+        testObserver();
     }
 
     public static void testExpression() {
